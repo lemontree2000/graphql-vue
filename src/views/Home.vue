@@ -6,13 +6,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import { pagesQueryGql } from "../gql/test";
+import { fetchData } from "../utils/request";
 
+const data = {
+  page: 1,
+  type: "ANIME",
+  format: ["MOVIE"],
+  sort: ["TRENDING_DESC", "POPULARITY_DESC"],
+};
 export default defineComponent({
   name: "Home",
   components: {
     HelloWorld,
+  },
+  setup() {
+    onMounted(() => {
+      fetchData(pagesQueryGql, data).then((res) => {
+        console.log(res);
+      });
+    });
+    return {};
   },
 });
 </script>
