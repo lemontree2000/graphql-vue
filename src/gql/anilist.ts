@@ -9,8 +9,18 @@ export const testQueryGql = gql`
   }
 `;
 
+export const pageInfoFragment = gql`
+  fragment pageInfoFragment on PageInfo {
+    total
+    perPage
+    currentPage
+    lastPage
+    hasNextPage
+  }
+`;
+
 export const pagesQueryGql = gql`
-  query (
+  query getPages(
     $page: Int = 1
     $id: Int
     $type: MediaType
@@ -42,13 +52,12 @@ export const pagesQueryGql = gql`
     $minimumTagRank: Int
     $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]
   ) {
-    Page(page: $page, perPage: 20) {
+    Page(page: $page, perPage: 30) {
       pageInfo {
-        total
-        perPage
-        currentPage
-        lastPage
-        hasNextPage
+        ...pageInfoFragment
+      }
+      ppinfo: pageInfo {
+        ...pageInfoFragment
       }
       media(
         id: $id
@@ -135,4 +144,5 @@ export const pagesQueryGql = gql`
       }
     }
   }
+  ${pageInfoFragment}
 `;

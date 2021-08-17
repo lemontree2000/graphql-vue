@@ -21,7 +21,7 @@ export const fetchData = (gqlDoc: DocumentNode, variables: any) => {
     method: "POST",
     url: "/",
     data,
-  });
+  }).then((res) => res.data);
 };
 
 function getOperationName(gql: DocumentNode): string {
